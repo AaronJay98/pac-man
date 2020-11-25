@@ -21,7 +21,9 @@ class App:
         self.player = Player(self, STARTING_POS)
         # Loads maze image
         self.walls = []
+        self.coins = []
         self.load()
+
 
     def run(self):
         while self.running:
@@ -46,7 +48,7 @@ class App:
     # Function to draw test
     # words is the text to draw
     # screen is the screen to draw the text on
-    # pos is pixel position to draw text
+    # pos is pix    el position to draw text
     # size is text size
     # color is text color
     # font_name is font of text
@@ -69,7 +71,9 @@ class App:
             for y_index, line in enumerate(file):
                 for x_index, char in enumerate(line):
                     if char == '1':
-                        self.walls.append(vec(x_index,y_index))
+                        self.walls.append(vec(x_index, y_index))
+                    elif char == "C":
+                        self.coins.append(vec(x_index, y_index))
 
     # Function to draw a grid over the maze
     def draw_grid(self):
@@ -132,8 +136,16 @@ class App:
     def playing_draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER // 2, TOP_BOTTOM_BUFFER // 2))
-        self.draw_grid()
+        self.draw_coins()
+        #self.draw_grid()
         self.draw_text('CURRENT SCORE : 0', self.screen, [10, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.draw_text('HIGH SCORE : 0', self.screen, [WIDTH // 2, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.player.draw()
         pygame.display.update()
+        #self.coins.pop()
+
+    def draw_coins(self):
+        for coin in self.coins:
+            pygame.draw.circle(self.screen, (124, 123, 7),
+                                (int(coin.x*self.cell_width) + self.cell_width//2 + TOP_BOTTOM_BUFFER//2,
+                                int(coin.y*self.cell_height) + self.cell_height//2 + TOP_BOTTOM_BUFFER//2), 5)
