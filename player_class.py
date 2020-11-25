@@ -12,6 +12,7 @@ class Player:
         self.direction = vec(1, 0)
         self.stored_direction = None
         self.able_to_move = True
+        self.speed = 2
 
     def get_pix_pos(self):
         # Gets the pixel position based on the grid position
@@ -21,7 +22,7 @@ class Player:
     def update(self):
         # Moves the position based on the direction
         if self.able_to_move:
-            self.pix_pos += self.direction
+            self.pix_pos += (self.speed * self.direction)
         if self.time_to_move():
             if None != self.stored_direction:
                 self.direction = self.stored_direction
@@ -58,3 +59,7 @@ class Player:
             if vec(self.grid_pos + self.direction) == wall:
                 return False
         return True
+
+    def set_speed(self, new_speed):
+        self.speed = new_speed
+        print(self.speed)
