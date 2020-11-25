@@ -16,7 +16,7 @@ class App:
         self.state = 'start'
         # Variables for the size of the cells of the grid of the maze
         self.cell_width = MAZE_WIDTH // 28
-        self.cell_height = MAZE_HEIGHT // 30
+        self.cell_height = MAZE_HEIGHT // 31
         # Initializes the player
         self.player = Player(self, STARTING_POS)
         # Loads maze image
@@ -81,8 +81,8 @@ class App:
             pygame.draw.line(self.background, GREY, (x * self.cell_width, 0), (x * self.cell_width, HEIGHT))
         for y in range(WIDTH // self.cell_height):
             pygame.draw.line(self.background, GREY, (0, y * self.cell_height), (WIDTH, y * self.cell_height))
-        #for wall in self.walls:
-        #    pygame.draw.rect(self.background, (112, 55, 163), (wall.x * self.cell_width, wall.y * self.cell_height, self.cell_width, self.cell_height))
+        for wall in self.walls:
+            pygame.draw.rect(self.background, (112, 55, 163), (wall.x * self.cell_width, wall.y * self.cell_height, self.cell_width, self.cell_height))
 
     ####################### INTRO FUNCTIONS #########################
 
@@ -95,6 +95,12 @@ class App:
             # Enters playing state when space pressed
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.state = 'playing'
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
+                self.player.set_speed(2)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
+                self.player.set_speed(4)
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_3:
+                self.player.set_speed(8)
 
     # Updates in start state
     def start_update(self):
@@ -107,6 +113,12 @@ class App:
                        (170, 132, 58), START_FONT, centered=True)
         self.draw_text('1 PLAYER ONLY', self.screen, [WIDTH // 2, HEIGHT // 2 + 30], START_TEXT_SIZE, (44, 167, 198),
                        START_FONT, centered=True)
+        self.draw_text('PUSH 1 FOR EASY', self.screen, [WIDTH // 2, HEIGHT // 2 + 110], START_TEXT_SIZE,
+                       (170, 132, 58), START_FONT, centered=True)
+        self.draw_text('PUSH 2 FOR NORMAL', self.screen, [WIDTH // 2, HEIGHT // 2 + 190], START_TEXT_SIZE,
+                       (170, 132, 58), START_FONT, centered=True)
+        self.draw_text('PUSH 3 FOR HARD', self.screen, [WIDTH // 2, HEIGHT // 2 + 270], START_TEXT_SIZE,
+                       (170, 132, 58), START_FONT, centered=True)
         self.draw_text('HIGH SCORE', self.screen, [3, 0], START_TEXT_SIZE, WHITE, START_FONT)
         pygame.display.update()
 
@@ -119,13 +131,13 @@ class App:
                 self.running = False
             # Moves the player based on the arrow key input
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self.player.move(vec(-1, 0))
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self.player.move(vec(1, 0))
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP or event.key == pygame.K_w:
                     self.player.move(vec(0, -1))
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                     self.player.move(vec(0, 1))
 
     # Updates in playing state
@@ -137,7 +149,7 @@ class App:
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER // 2, TOP_BOTTOM_BUFFER // 2))
         self.draw_coins()
-        #self.draw_grid()
+        self.draw_grid()
         self.draw_text('CURRENT SCORE : 0', self.screen, [10, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.draw_text('HIGH SCORE : 0', self.screen, [WIDTH // 2, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.player.draw()
@@ -149,3 +161,4 @@ class App:
             pygame.draw.circle(self.screen, (124, 123, 7),
                                 (int(coin.x*self.cell_width) + self.cell_width//2 + TOP_BOTTOM_BUFFER//2,
                                 int(coin.y*self.cell_height) + self.cell_height//2 + TOP_BOTTOM_BUFFER//2), 5)
+
