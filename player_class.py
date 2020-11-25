@@ -22,7 +22,7 @@ class Player:
         # Moves the position based on the direction
         if self.able_to_move:
             self.pix_pos += self.direction
-        if self.time_to_move:
+        if self.time_to_move():
             if None != self.stored_direction:
                 self.direction = self.stored_direction
             self.able_to_move = self.can_move()
