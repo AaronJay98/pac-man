@@ -62,9 +62,10 @@ class App:
             pos[1] = pos[1] - text_size[1] / 2
         screen.blit(text, pos)
 
-    # Function to load the maze
+    # Function to load the images
     def load(self):
-        self.background = pygame.image.load('maze.png')
+        # Maze Loading
+        self.background = pygame.image.load('whitemaze1.png')
         self.background = pygame.transform.scale(self.background, (MAZE_WIDTH, MAZE_HEIGHT))
         # Creates a list of walls in the maze
         with open('walls.txt', 'r') as file:
@@ -74,6 +75,10 @@ class App:
                         self.walls.append(vec(x_index, y_index))
                     elif char == "C":
                         self.coins.append(vec(x_index, y_index))
+        #Coins Loading
+        self.coin_image = pygame.image.load('blackcoinflower.png')
+        self.coin_image = pygame.transform.scale(self.coin_image, (self.cell_width, self.cell_height))
+
 
     # Function to draw a grid over the maze
     def draw_grid(self):
@@ -92,15 +97,16 @@ class App:
             # Closes game on exit
             if event.type == pygame.QUIT:
                 self.running = False
-            # Enters playing state when space pressed
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.state = 'playing'
+            # Chooses difficulty speed based on user input and enters playing stage
             if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
                 self.player.set_speed(2)
+                self.state = 'playing'
             if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
                 self.player.set_speed(4)
+                self.state = 'playing'
             if event.type == pygame.KEYDOWN and event.key == pygame.K_3:
                 self.player.set_speed(8)
+                self.state = 'playing'
 
     # Updates in start state
     def start_update(self):
@@ -109,16 +115,12 @@ class App:
     # Draws starting screen
     def start_draw(self):
         self.screen.fill(BLACK)
-        self.draw_text('PUSH SPACE BAR TO START', self.screen, [WIDTH // 2, HEIGHT // 2 - 50], START_TEXT_SIZE,
-                       (170, 132, 58), START_FONT, centered=True)
-        self.draw_text('1 PLAYER ONLY', self.screen, [WIDTH // 2, HEIGHT // 2 + 30], START_TEXT_SIZE, (44, 167, 198),
-                       START_FONT, centered=True)
-        self.draw_text('PUSH 1 FOR EASY', self.screen, [WIDTH // 2, HEIGHT // 2 + 110], START_TEXT_SIZE,
-                       (170, 132, 58), START_FONT, centered=True)
-        self.draw_text('PUSH 2 FOR NORMAL', self.screen, [WIDTH // 2, HEIGHT // 2 + 190], START_TEXT_SIZE,
-                       (170, 132, 58), START_FONT, centered=True)
-        self.draw_text('PUSH 3 FOR HARD', self.screen, [WIDTH // 2, HEIGHT // 2 + 270], START_TEXT_SIZE,
-                       (170, 132, 58), START_FONT, centered=True)
+        self.draw_text('PUSH 1 FOR EASY', self.screen, [WIDTH // 2, HEIGHT // 2 - 100], START_TEXT_SIZE,
+                       GREEN, START_FONT, centered=True)
+        self.draw_text('PUSH 2 FOR NORMAL', self.screen, [WIDTH // 2, HEIGHT // 2], START_TEXT_SIZE,
+                       YELLOW, START_FONT, centered=True)
+        self.draw_text('PUSH 3 FOR HARD', self.screen, [WIDTH // 2, HEIGHT // 2 + 100], START_TEXT_SIZE,
+                       RED, START_FONT, centered=True)
         self.draw_text('HIGH SCORE', self.screen, [3, 0], START_TEXT_SIZE, WHITE, START_FONT)
         pygame.display.update()
 
@@ -149,7 +151,7 @@ class App:
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER // 2, TOP_BOTTOM_BUFFER // 2))
         self.draw_coins()
-        self.draw_grid()
+        #self.draw_grid()
         self.draw_text('CURRENT SCORE : 0', self.screen, [10, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.draw_text('HIGH SCORE : 0', self.screen, [WIDTH // 2, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.player.draw()
@@ -158,7 +160,9 @@ class App:
 
     def draw_coins(self):
         for coin in self.coins:
-            pygame.draw.circle(self.screen, (124, 123, 7),
-                                (int(coin.x*self.cell_width) + self.cell_width//2 + TOP_BOTTOM_BUFFER//2,
-                                int(coin.y*self.cell_height) + self.cell_height//2 + TOP_BOTTOM_BUFFER//2), 5)
+            #pygame.draw.circle(self.screen, (124, 123, 7),
+            #                    (int(coin.x*self.cell_width) + self.cell_width//2 + TOP_BOTTOM_BUFFER//2,
+            #                    int(coin.y*self.cell_height) + self.cell_height//2 + TOP_BOTTOM_BUFFER//2), 5)
+            self.screen.blit(self.coin_image, (int(coin.x * self.cell_width) + (self.cell_width - self.coin_image.get_width())/2 + TOP_BOTTOM_BUFFER//2,
+                                               int(coin.y * self.cell_height) + (self.cell_height - self.coin_image.get_height())/2 + TOP_BOTTOM_BUFFER//2))
 
