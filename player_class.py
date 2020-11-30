@@ -13,11 +13,8 @@ class Player:
         self.stored_direction = None
         self.able_to_move = True
         self.speed = 2
-
-    def get_pix_pos(self):
-        # Gets the pixel position based on the grid position
-        return vec((self.grid_pos.x * self.app.cell_width) + TOP_BOTTOM_BUFFER // 2 + self.app.cell_width // 2,
-                   (self.grid_pos.y * self.app.cell_height) + TOP_BOTTOM_BUFFER // 2 + self.app.cell_height // 2)
+        self.avatar_image = pygame.image.load('redpanda.png')
+        self.avatar_image = pygame.transform.scale(self.avatar_image, (self.app.cell_width, self.app.cell_height))
 
     def update(self):
         # Moves the position based on the direction
@@ -31,17 +28,25 @@ class Player:
         self.grid_pos[0] = (self.pix_pos[0] - TOP_BOTTOM_BUFFER + self.app.cell_width//2)//self.app.cell_width + 1
         self.grid_pos[1] = (self.pix_pos[1] - TOP_BOTTOM_BUFFER + self.app.cell_height//2)//self.app.cell_height + 1
 
+    # Draws the player image
     def draw(self):
+        self.app.screen.blit(self.avatar_image, (int(self.pix_pos.x) - self.app.cell_width//2,
+                                                 int(self.pix_pos.y) - self.app.cell_height//2))
         # Draws the circle
-        pygame.draw.circle(self.app.screen, PLAYER_COLOR, (int(self.pix_pos.x), int(self.pix_pos.y)),
-                           self.app.cell_width//2 - 2)
+        #pygame.draw.circle(self.app.screen, PLAYER_COLOR, (int(self.pix_pos.x), int(self.pix_pos.y)),
+        #                   self.app.cell_width//2 - 2)
         # Draws a rectangle of the grid the player is on
         #pygame.draw.rect(self.app.screen, RED, (self.grid_pos[0] * self.app.cell_width + TOP_BOTTOM_BUFFER//2,
         #                                        self.grid_pos[1] * self.app.cell_height + TOP_BOTTOM_BUFFER//2,
         #                                        self.app.cell_width, self.app.cell_height), 1)
 
+    # Gets the pixel position based on the grid position
+    def get_pix_pos(self):
+        return vec((self.grid_pos.x * self.app.cell_width) + TOP_BOTTOM_BUFFER // 2 + self.app.cell_width // 2,
+                   (self.grid_pos.y * self.app.cell_height) + TOP_BOTTOM_BUFFER // 2 + self.app.cell_height // 2)
+
+    # Sets direction movement when player inputs an arrow key
     def move(self, direction):
-        # Sets direction movement when player inputs an arrow key
         self.stored_direction = direction
 
     # Only allows movement when player is in center of a grid box
