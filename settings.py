@@ -12,11 +12,13 @@ BLACK = (0, 0, 0)
 GREY = (107, 107, 107)
 WHITE = (255, 255, 255)
 PLAYER_COLOR = (190, 194, 15)
-RED = (208, 22, 22)
+RED = (253, 11, 11)
+GREEN = (11, 255, 85)
+YELLOW = (247, 247, 0)
 
 # font settings
-START_TEXT_SIZE = 16
-START_FONT = 'arial black'
+START_TEXT_SIZE = 50
+START_FONT = 'arial rounded mt bold'
 
 # player settings
 STARTING_POS = vec(1, 1)
