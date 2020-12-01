@@ -14,15 +14,16 @@ class App:
         self.clock = pygame.time.Clock()
         self.running = True
         self.state = 'start'
+        self.p_pos = None
         # Variables for the size of the cells of the grid of the maze
         self.cell_width = MAZE_WIDTH // 28
         self.cell_height = MAZE_HEIGHT // 31
-        # Initializes the player
-        self.player = Player(self, STARTING_POS)
         # Loads maze image
         self.walls = []
         self.coins = []
         self.load()
+        # Initializes the player
+        self.player = Player(self, self.p_pos)
 
 
     def run(self):
@@ -75,6 +76,8 @@ class App:
                         self.walls.append(vec(x_index, y_index))
                     elif char == "C":
                         self.coins.append(vec(x_index, y_index))
+                    elif char == "P":
+                        self.p_pos = vec(x_index, y_index)
         #Coins Loading
         self.coin_image = pygame.image.load('blackcoinflower.png')
         self.coin_image = pygame.transform.scale(self.coin_image, (self.cell_width, self.cell_height))
@@ -152,7 +155,7 @@ class App:
         self.screen.blit(self.background, (TOP_BOTTOM_BUFFER // 2, TOP_BOTTOM_BUFFER // 2))
         self.draw_coins()
         #self.draw_grid()
-        self.draw_text('CURRENT SCORE : 0', self.screen, [10, 1], START_TEXT_SIZE, WHITE, START_FONT)
+        self.draw_text('CURRENT SCORE : {}'.format(self.player.current_score), self.screen, [10, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.draw_text('HIGH SCORE : 0', self.screen, [WIDTH // 2, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.player.draw()
         pygame.display.update()
@@ -165,4 +168,3 @@ class App:
             #                    int(coin.y*self.cell_height) + self.cell_height//2 + TOP_BOTTOM_BUFFER//2), 5)
             self.screen.blit(self.coin_image, (int(coin.x * self.cell_width) + (self.cell_width - self.coin_image.get_width())/2 + TOP_BOTTOM_BUFFER//2,
                                                int(coin.y * self.cell_height) + (self.cell_height - self.coin_image.get_height())/2 + TOP_BOTTOM_BUFFER//2))
-

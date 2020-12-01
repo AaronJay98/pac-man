@@ -21,6 +21,6 @@ START_TEXT_SIZE = 50
 START_FONT = 'arial rounded mt bold'
 
 # player settings
-STARTING_POS = vec(1, 1)
+#STARTING_POS = vec(1, 1)
 
 # mod settings
