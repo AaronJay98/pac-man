@@ -84,6 +84,8 @@ class App:
                         self.p_pos = vec(x_index, y_index)
                     elif char in ["2", "3", "4", "5"]:
                         self.e_pos.append(vec(x_index, y_index))
+                    elif char == "B":
+                        pygame.draw.rect(self.background, BLACK, (x_index * self.cell_width, y_index * self.cell_height, self.cell_width, self.cell_height))
 
 
         #Coins Loading
@@ -92,8 +94,8 @@ class App:
 
     # Function to make the enemies
     def make_enemies(self):
-        for pos in self.e_pos:
-            self.enemies.append(Enemy(self, pos))
+        for idx, pos in enumerate(self.e_pos):
+            self.enemies.append(Enemy(self, pos, idx))
 
     # Function to draw a grid over the maze
     def draw_grid(self):
