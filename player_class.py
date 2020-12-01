@@ -86,4 +86,4 @@ class Player:
 
     def set_speed(self, new_speed):
         self.speed = new_speed
-        print(self.speed)
+        #print(self.speed)

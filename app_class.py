@@ -2,6 +2,7 @@ import pygame
 import sys
 from settings import *
 from player_class import *
+from enemy_class import *
 
 pygame.init()
 vec = pygame.math.Vector2
@@ -14,6 +15,7 @@ class App:
         self.clock = pygame.time.Clock()
         self.running = True
         self.state = 'start'
+        self.e_pos = []
         self.p_pos = None
         # Variables for the size of the cells of the grid of the maze
         self.cell_width = MAZE_WIDTH // 28
@@ -21,9 +23,11 @@ class App:
         # Loads maze image
         self.walls = []
         self.coins = []
+        self.enemies = []
         self.load()
         # Initializes the player
         self.player = Player(self, self.p_pos)
+        self.make_enemies()
 
 
     def run(self):
@@ -78,10 +82,18 @@ class App:
                         self.coins.append(vec(x_index, y_index))
                     elif char == "P":
                         self.p_pos = vec(x_index, y_index)
+                    elif char in ["2", "3", "4", "5"]:
+                        self.e_pos.append(vec(x_index, y_index))
+
+
         #Coins Loading
         self.coin_image = pygame.image.load('blackcoinflower.png')
         self.coin_image = pygame.transform.scale(self.coin_image, (self.cell_width, self.cell_height))
 
+    # Function to make the enemies
+    def make_enemies(self):
+        for pos in self.e_pos:
+            self.enemies.append(Enemy(self, pos))
 
     # Function to draw a grid over the maze
     def draw_grid(self):
@@ -148,6 +160,9 @@ class App:
     # Updates in playing state
     def playing_update(self):
         self.player.update()
+        for enemy in self.enemies:
+            enemy.update()
+
 
     # Draws the main game screen
     def playing_draw(self):
@@ -158,6 +173,8 @@ class App:
         self.draw_text('CURRENT SCORE : {}'.format(self.player.current_score), self.screen, [10, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.draw_text('HIGH SCORE : 0', self.screen, [WIDTH // 2, 1], START_TEXT_SIZE, WHITE, START_FONT)
         self.player.draw()
+        for enemy in self.enemies:
+            enemy.draw()
         pygame.display.update()
         #self.coins.pop()
 
