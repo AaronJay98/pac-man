@@ -42,7 +42,9 @@ class Player:
 
         # Drawing Player lives
         for x in range(self.lives):
-            pygame.draw.circle(self.app.screen, PLAYER_COLOR, (40 + 40 * x, HEIGHT - 30), 15)
+            self.app.screen.blit(self.avatar_image, (15 + 40 * x, HEIGHT - 50))
+            #pygame.draw.circle(self.app.screen, PLAYER_COLOR, (40 + 40 * x, HEIGHT - 30), 15)
+
         # Draws the circle
         #pygame.draw.circle(self.app.screen, PLAYER_COLOR, (int(self.pix_pos.x), int(self.pix_pos.y)),
         #                   self.app.cell_width//2 - 2)
