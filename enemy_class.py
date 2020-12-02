@@ -14,7 +14,7 @@ class Enemy:
         self.color = self.set_color()
         self.direction = vec(0, 0)
         self.personality = self.set_personality()
-        self.speed = self.set_speed()
+        self.speed = 1
         self.target = None
 
     def update(self):
@@ -45,12 +45,11 @@ class Enemy:
             else:
                 return vec(COLS-2, ROWS-2)
 
-    def set_speed(self):
+    def set_speed(self, new_speed_fast, new_speed_slow):
         if self.personality in ["speedy", "scared"]:
-            speed = 8
+            self.speed = new_speed_fast
         else:
-            speed = 4
-        return speed
+            self.speed = new_speed_slow
 
     def time_to_move(self):
         if int(self.pix_pos.x + TOP_BOTTOM_BUFFER // 2) % self.app.cell_width == 0:

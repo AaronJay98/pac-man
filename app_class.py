@@ -144,12 +144,18 @@ class App:
             # Chooses difficulty speed based on user input and enters playing stage
             if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
                 self.player.set_speed(2)
+                for enemy in self.enemies:
+                    enemy.set_speed(2, 1)
                 self.state = 'playing'
             if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
                 self.player.set_speed(4)
+                for enemy in self.enemies:
+                    enemy.set_speed(4, 2)
                 self.state = 'playing'
             if event.type == pygame.KEYDOWN and event.key == pygame.K_3:
                 self.player.set_speed(8)
+                for enemy in self.enemies:
+                    enemy.set_speed(8, 4)
                 self.state = 'playing'
 
     # Updates in start state
@@ -245,12 +251,18 @@ class App:
                 # Chooses difficulty speed based on user input and enters playing stage
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
                     self.player.set_speed(2)
+                    for enemy in self.enemies:
+                        enemy.set_speed(2, 1)
                     self.reset()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
                     self.player.set_speed(4)
+                    for enemy in self.enemies:
+                        enemy.set_speed(4, 2)
                     self.reset()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_3:
                     self.player.set_speed(8)
+                    for enemy in self.enemies:
+                        enemy.set_speed(8, 4)
                     self.reset()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.running = False
