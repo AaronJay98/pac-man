@@ -16,6 +16,7 @@ class Enemy:
         self.personality = self.set_personality()
         self.speed = 1
         self.target = None
+        self.enemy_image = self.set_image()
 
     def update(self):
         self.target = self.set_target()
@@ -30,7 +31,10 @@ class Enemy:
 
 
     def draw(self):
-        pygame.draw.circle(self.app.screen, self.color, (int(self.pix_pos.x), int(self.pix_pos.y)), 15)
+        #pygame.draw.circle(self.app.screen, self.color, (int(self.pix_pos.x), int(self.pix_pos.y)), 15)
+
+        self.app.screen.blit(self.enemy_image, (int(self.pix_pos.x) - self.app.cell_width // 2,
+                                                  int(self.pix_pos.y) - self.app.cell_height // 2))
 
     def set_target(self):
         if self.personality == "speedy" or self.personality == "slow":
@@ -147,6 +151,24 @@ class Enemy:
             return (189, 29, 29)
         if self.number == 3:
             return (215, 159, 33)
+
+    def set_image(self):
+        if self.number == 0:
+            image = pygame.image.load('red_enemy.png')
+            image = pygame.transform.scale(image, (self.app.cell_width, self.app.cell_height))
+            return image
+        if self.number == 1:
+            image = pygame.image.load('blue_enemy.png')
+            image = pygame.transform.scale(image, (self.app.cell_width, self.app.cell_height))
+            return image
+        if self.number == 2:
+            image = pygame.image.load('purple_enemy.png')
+            image = pygame.transform.scale(image, (self.app.cell_width, self.app.cell_height))
+            return image
+        if self.number == 3:
+            image = pygame.image.load('green_enemy.png')
+            image = pygame.transform.scale(image, (self.app.cell_width, self.app.cell_height))
+            return image
 
     # Sets the personality of each ghost to determine how they move
     def set_personality(self):
