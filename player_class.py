@@ -7,6 +7,7 @@ class Player:
     def __init__(self, app, pos):
         # sets initial variables
         self.app = app
+        self.starting_pos = [pos.x, pos.y]
         self.grid_pos = pos
         self.pix_pos = self.get_pix_pos()
         self.direction = vec(0, 0)
@@ -14,8 +15,10 @@ class Player:
         self.able_to_move = True
         self.current_score = 0
         self.speed = 2
+        self.lives = 3
         self.avatar_image = pygame.image.load('redpanda.png')
         self.avatar_image = pygame.transform.scale(self.avatar_image, (self.app.cell_width, self.app.cell_height))
+
 
     def update(self):
         # Moves the position based on the direction
@@ -36,6 +39,10 @@ class Player:
     def draw(self):
         self.app.screen.blit(self.avatar_image, (int(self.pix_pos.x) - self.app.cell_width//2,
                                                  int(self.pix_pos.y) - self.app.cell_height//2))
+
+        # Drawing Player lives
+        for x in range(self.lives):
+            pygame.draw.circle(self.app.screen, PLAYER_COLOR, (40 + 40 * x, HEIGHT - 30), 15)
         # Draws the circle
         #pygame.draw.circle(self.app.screen, PLAYER_COLOR, (int(self.pix_pos.x), int(self.pix_pos.y)),
         #                   self.app.cell_width//2 - 2)

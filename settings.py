@@ -7,6 +7,10 @@ TOP_BOTTOM_BUFFER = 100
 WIDTH, HEIGHT = 1220, 1340
 MAZE_WIDTH, MAZE_HEIGHT = WIDTH - TOP_BOTTOM_BUFFER, HEIGHT - TOP_BOTTOM_BUFFER
 
+ROWS = 31
+COLS = 28
+
+
 # color settings
 BLACK = (0, 0, 0)
 GREY = (107, 107, 107)
@@ -21,6 +25,6 @@ START_TEXT_SIZE = 50
 START_FONT = 'arial rounded mt bold'
 
 # player settings
-#STARTING_POS = vec(1, 1)
+# STARTING_POS = vec(1, 1)
 
 # mod settings
